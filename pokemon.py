@@ -8,6 +8,8 @@ import pygame
 pygame.init()
 pygame.mixer.music.load("/Users/rherz/desktop/pyprojects/x2mate.com - Pokemon Soundtrack battle (sonido batalla) (128 kbps).mp3")
 pygame.mixer.music.play(-1)
+ruta_archivo_sonido = "/Users/rherz/desktop/pyprojects/aipom.mp3"
+sonido_ataque = pygame.mixer.Sound(ruta_archivo_sonido)
 
 def imprimir_con_retraso(s):
     for c in s:
@@ -28,7 +30,7 @@ class Pokemon:
 
 
     def info(self,Pokemon2):
-        print("-----BATALLA DE POKÉMON-----")
+        print("----- BATALLA DE POKÉMON -----")
         print(f'\n{self.nombre}')
         print("tipo/", self.tipos)
         print("ataque/", self.ataque)
@@ -88,17 +90,19 @@ class Pokemon:
             print(f"¡Adelante {self.nombre}!")
             for i, x in enumerate(self.movimientos):
                 print(f"{i+1}.", x)
-            #index = int(input('Elige un movimiento: '))
             index = None
             while index is None:
              try:
                 index = int(input('Elige un movimiento: '))
                 if index < 1 or index > 4:
-                    print("Elige un ataque del 1 al 4.")
+                    print(f"Elegí un ataque aprendido por {self.nombre}. (del 1 al 4)")
                     index = None
              except ValueError:
-                print(f"¡Es tu turno de atacar!, Elegí un ataque aprendido por {self.nombre}")
+                print(f"¡Es tu turno de atacar!, Elegí un ataque aprendido por {self.nombre}.")
             imprimir_con_retraso(f"\ni{self.nombre} usó {self.movimientos[index-1]}!")
+            sonido_ataque.play()
+            time.sleep(2)  
+            sonido_ataque.stop()
             time.sleep(1)
             imprimir_con_retraso(cadena_1_ataque)
         
@@ -122,23 +126,24 @@ class Pokemon:
             print(f"¡Adelante {Pokemon2.nombre}!")
             for i, x in enumerate(Pokemon2.movimientos):
                 print(f"{i+1}.", x)
-            #index = int(input('Elige un movimiento: '))
             index = None
             while index is None:
              try:
                 index = int(input('Elige un movimiento: '))
                 if index < 1 or index > 4:
-                    print("Elige un ataque del 1 al 4.")
+                    print(f"Elegí un ataque aprendido por {Pokemon2.nombre}. (del 1 al 4)")
                     index = None
              except ValueError:
                 print(f"¡Es tu turno de atacar!, Elegí un ataque aprendido por {Pokemon2.nombre}")
             imprimir_con_retraso(f"\ni{Pokemon2.nombre} usó {Pokemon2.movimientos[index-1]}!")
+            sonido_ataque.play()
+            time.sleep(2)  
+            sonido_ataque.stop()
             time.sleep(1)
             imprimir_con_retraso(cadena_2_ataque)
         
             self.barras -= Pokemon2.ataque
             self.puntos_de_salud = ""
-        
             
             for j in range (int(self.barras+1*self.defensa)):
                 self.puntos_de_salud += "="
@@ -178,18 +183,8 @@ if __name__ == '__main__':
      Blastoise = Pokemon('Blastoise', 'agua', ['Pistola Agua', 'Burbuja', 'Hidropulso', 'Hidrobomba'], {'ataque':10, 'defensa':10})
      Venusaur = Pokemon('Venusaur', 'planta', ['Latigo Cepa', 'Hoja afilada', 'Rayo solar', 'Abatidoras'], {'ataque':8, 'defensa':12})
      
-Charizard.batalla(Charizard)
+Blastoise.batalla(Venusaur)
 pygame.mixer.music.stop()
-
-
-    
-    
-    
-
-
-
-
-
 
 
 
